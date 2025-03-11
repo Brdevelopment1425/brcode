@@ -46,4 +46,4 @@ Birlikte **1.5 senedir** açık olan ve **yeni sitesi açılan** bu projede eme�
 
 ---
 
-📌 **Bu proje GitHub üzerinde barındırılmaktadır.** Daha fazla bilgi için [buraya](https://github.com/) göz atabilirsiniz!  
+📌 **Bu proje GitHub üzerinde barındırılmaktadır.** Daha fazla bilgi için [buraya](https://garrulous-mirage-empress.glitch.me) göz atabilirsiniz!  
