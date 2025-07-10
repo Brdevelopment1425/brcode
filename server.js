@@ -12,14 +12,16 @@ const PORT = 3000;
 
 app.use(helmet());
 app.use(express.json());
-app.use(express.static('public'));
 
 const limiter = rateLimit({
   windowMs: 60 * 1000,
   max: 10,
   message: 'Çok fazla istek attınız, lütfen 1 dakika bekleyin.'
 });
-app.use('/login', limiter);
+app.use('/', limiter); // limiter artık tüm / yollarına
+
+// Statik dosyalar için public klasörü
+app.use(express.static('public'));
 
 const getIP = (req) => {
   const forwarded = req.headers['x-forwarded-for'];
@@ -45,12 +47,18 @@ function saveVerified(email, ip, location) {
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'brdevelopment2@gmail.com', // kendi gmailin
-    pass: 'gsrzwedlaiuprwoe'         // kendi app password
+    user: 'brdevelopment2@gmail.com', // kendi mailin
+    pass: 'gsrzwedlaiuprwoe'          // kendi app şifren
   }
 });
 
-app.post('/login', async (req, res) => {
+// GET / ile index.html sun
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// POST / ile login işlemi
+app.post('/', async (req, res) => {
   try {
     const { email } = req.body;
     if (!email || !email.includes('@gmail.com')) {
@@ -69,7 +77,7 @@ app.post('/login', async (req, res) => {
 
     pending[token] = { email, ip, expiresAt, location };
 
-    const baseURL = 'http://localhost:3000'; // canlıda kendi domainini buraya yaz
+    const baseURL = 'http://localhost:3000'; // canlıda kendi domainin
     const url = `${baseURL}/verify?token=${token}`;
 
     const html = `
